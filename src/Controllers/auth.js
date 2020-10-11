@@ -2,9 +2,9 @@ const formResponse = require("../Helpers/Forms/formResponse");
 const authModel = require("../Models/auth");
 
 const authController = {
-  register: (req, res) => {
+  customerRegister: (req, res) => {
     authModel
-      .register(req.body)
+      .customerRegister(req.body)
       .then((data) => {
         formResponse.success(res, data, 200);
       })
@@ -12,9 +12,29 @@ const authController = {
         formResponse.error(res, err, 500);
       });
   },
-  login: (req, res) => {
+  sellerRegister: (req, res) => {
     authModel
-      .login(req.body)
+      .sellerRegister(req.body)
+      .then((data) => {
+        formResponse.success(res, data, 200);
+      })
+      .catch((err) => {
+        formResponse.error(res, err, 500);
+      });
+  },
+  customerLogin: (req, res) => {
+    authModel
+      .customerLogin(req.body)
+      .then((data) => {
+        formResponse.success(res, data, 200);
+      })
+      .catch((err) => {
+        formResponse.error(res, err, 500);
+      });
+  },
+  sellerLogin: (req, res) => {
+    authModel
+      .sellerLogin(req.body)
       .then((data) => {
         formResponse.success(res, data, 200);
       })
