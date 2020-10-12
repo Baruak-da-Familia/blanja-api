@@ -11,20 +11,19 @@ const authModel = {
           bcrypt.hash(password, salt, (error, hashedPassword) => {
             if (!error) {
               const newBody = { ...body, password: hashedPassword };
-              const qs = `START TRANSACTION; INSERT INTO users SET ?; INSERT INTO users_detail SET user_id = LAST_INSERT_ID(); SELECT id, first_name, last_name, corporate_name, type_id, image FROM users WHERE users.email=?; COMMIT;`;
+              const qs = "INSERT INTO customer SET ?"; 
               db.query(qs, [newBody, body.email], (err, data) => {
                 if (err) {
                   reject({ msg: "User Already Exist" });
                 } else {
-                  const { id, type_id } = data[3][0];
-                  const { email } = body;
+                  const { insertId } = data;
+                  const { name, email } = body;
                   const payload = {
-                    id,
+                    id: insertId,
                     email,
-                    type_id,
                   };
                   const token = jwt.sign(payload, process.env.SECRET_KEY);
-                  resolve({ data: data[3][0], msg: "Register Success", token });
+                  resolve({ msg: "Register Success", id: insertId, name, email, token });
                 }
               });
             }
@@ -46,14 +45,23 @@ const authModel = {
                 if (err) {
                   reject({ msg: "User Already Exist" });
                 } else {
-                  const { id } = data[3][0];
-                  const { email } = body;
+                  console.log(data);
+                  const { insertId } = data;
+                  const { email, name, phone_number, store_name } = body;
                   const payload = {
-                    id,
+                    id: insertId,
                     email,
                   };
                   const token = jwt.sign(payload, process.env.SECRET_KEY);
-                  resolve({ data: data[3][0], msg: "Register Success", token });
+                  resolve({
+                    msg: "Register Success",
+                    id: insertId,
+                    name,
+                    email,
+                    phone_number,
+                    store_name,
+                    token,
+                  });
                 }
               });
             }
@@ -65,7 +73,7 @@ const authModel = {
   customerLogin: (body) => {
     return new Promise((resolve, reject) => {
       const qs =
-        "SELECT id, name, email, password, avatar, phone_number, gender, dob FROM customer WHERE email=?";
+        "SELECT * FROM customer WHERE email=?";
       db.query(qs, body.email, (err, data) => {
         if (!err) {
           if (data.length) {
@@ -73,14 +81,7 @@ const authModel = {
               if (!result) {
                 reject({ msg: "Wrong Password" });
               } else if (result === true) {
-                const {
-                  id,
-                  name,
-                  avatar,
-                  phone_number,
-                  gender,
-                  dob,
-                } = data[0];
+                const { id, name, avatar, phone_number, gender, dob } = data[0];
                 const { email } = body;
                 const payload = {
                   id,
@@ -115,7 +116,7 @@ const authModel = {
   sellerLogin: (body) => {
     return new Promise((resolve, reject) => {
       const qs =
-        "SELECT id, name, email, phone_number, store_name, password, avatar, store_desc FROM seller WHERE email=?";
+        "SELECT * FROM seller WHERE email=?";
       db.query(qs, body.email, (err, data) => {
         if (!err) {
           if (data.length) {
