@@ -1,10 +1,10 @@
 const db = require("../Configs/dbMysql");
 
 const userModel = {
-  showDetailUser: (id) => {
-    let queryStr = `${selectQuery} WHERE customer.id = ?`;
+  showDetailCustomer: (id) => {
+    let queryStr = "SELECT * FROM customer WHERE customer.id = ?" ;
     return new Promise((resolve, reject) => {
-      connection.query(queryStr, [id], (err, data) => {
+      db.query(queryStr, [id], (err, data) => {
         if (!err) {
           resolve(data);
         } else {
@@ -13,10 +13,48 @@ const userModel = {
       });
     });
   },
-  updateUser: (id, body) => {
+  showDetailSeller: (id) => {
+    let queryStr = "SELECT * FROM seller WHERE seller.id = ?";
     return new Promise((resolve, reject) => {
-      const queryStr = `UPDATE customer SET ? AND customer.id = ${id}`;
-      connection.query(queryStr, body, (err, data) => {
+      db.query(queryStr, [id], (err, data) => {
+        if (!err) {
+          resolve(data);
+        } else {
+          reject(err);
+        }
+      });
+    });
+  },
+  updateCustomer: (id, body) => {
+    return new Promise((resolve, reject) => {
+      const queryStr = `UPDATE customer SET ? WHERE customer.id = ${id}`;
+      db.query(queryStr, body, (err, data) => {
+        if (!err) {
+          console.log(data);
+          resolve(data);
+        } else {
+          reject(err);
+        }
+      });
+    });
+  },
+  updateSeller: (id, body) => {
+    return new Promise((resolve, reject) => {
+      const queryStr = `UPDATE seller SET ? WHERE seller.id = ${id}`;
+      db.query(queryStr, body, (err, data) => {
+        if (!err) {
+          console.log(data);
+          resolve(data);
+        } else {
+          reject(err);
+        }
+      });
+    });
+  },
+  addAddress: (user_id, body) => {
+    return new Promise((resolve, reject) => {
+      const queryStr = `UPDATE address SET ? WHERE address.user_id = ${user_id}`;
+      db.query(queryStr, body, (err, data) => {
         if (!err) {
           console.log(data);
           resolve(data);

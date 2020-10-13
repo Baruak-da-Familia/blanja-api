@@ -14,7 +14,7 @@ const storage = multer.diskStorage({
 });
 
 const limits = {
-  fileSize: 3 * 1000 * 1000,
+  fileSize: 5 * 1000 * 1000,
 };
 
 const fileFilter = (req, file, cb) => {
@@ -35,7 +35,7 @@ const upload = multer({
 
 const uploadImage = {
   singleUpload: (req, res, next) => {
-    const singleUpload = upload.single("image");
+    const singleUpload = upload.single("avatar");
     singleUpload(req, res, (err) => {
       console.log(req.file);
       if (err) {
@@ -44,7 +44,7 @@ const uploadImage = {
         });
       } else {
         try {
-          req.body.image = `http://localhost:8000/images/${req.file.filename}`;
+          req.body.avatar = `/images/${req.file.filename}`;
         } catch (err) {
           console.log(err);
         } finally {
