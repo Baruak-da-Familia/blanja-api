@@ -52,6 +52,21 @@ const userController = {
         formResponse.error(res, err);
       });
   },
+  addAddress: (req, res) => {
+    userModel
+      .addAddress(req.params.id, req.body)
+      .then((data) => {
+        const responData = {
+          ...req.body,
+          msg: "Add Address Sucessfull",
+        };
+        formResponse.success(res, responData);
+      })
+      .catch((err) => {
+        console.log(err);
+        formResponse.error(res, err);
+      });
+  },
 };
 
 module.exports = userController;
