@@ -11,19 +11,31 @@ const authModel = {
           bcrypt.hash(password, salt, (error, hashedPassword) => {
             if (!error) {
               const newBody = { ...body, password: hashedPassword };
-              const qs = "INSERT INTO customer SET ?"; 
+              const qs = "INSERT INTO customer SET ?";
               db.query(qs, [newBody, body.email], (err, data) => {
                 if (err) {
                   reject({ msg: "User Already Exist" });
                 } else {
-                  const { insertId } = data;
+                  const { insertId, avatar = null, phone_number = null, gender = null, dob = null } = data;
                   const { name, email } = body;
                   const payload = {
                     id: insertId,
                     email,
                   };
+                  const user_type = "Customer";
                   const token = jwt.sign(payload, process.env.SECRET_KEY);
-                  resolve({ msg: "Register Success", id: insertId, name, email, token });
+                  resolve({
+                    msg: "Register Success",
+                    id: insertId,
+                    name,
+                    email,
+                    avatar,
+                    phone_number,
+                    gender,
+                    dob,
+                    user_type,
+                    token,
+                  });
                 }
               });
             }
@@ -46,12 +58,13 @@ const authModel = {
                   reject({ msg: "User Already Exist" });
                 } else {
                   console.log(data);
-                  const { insertId } = data;
+                  const { insertId, avatar = null, store_desc = null } = data;
                   const { email, name, phone_number, store_name } = body;
                   const payload = {
                     id: insertId,
                     email,
                   };
+                  const user_type = "Seller";
                   const token = jwt.sign(payload, process.env.SECRET_KEY);
                   resolve({
                     msg: "Register Success",
@@ -60,6 +73,9 @@ const authModel = {
                     email,
                     phone_number,
                     store_name,
+                    avatar,
+                    store_desc,
+                    user_type,
                     token,
                   });
                 }
@@ -72,8 +88,7 @@ const authModel = {
   },
   customerLogin: (body) => {
     return new Promise((resolve, reject) => {
-      const qs =
-        "SELECT * FROM customer WHERE email=?";
+      const qs = "SELECT * FROM customer WHERE email=?";
       db.query(qs, body.email, (err, data) => {
         if (!err) {
           if (data.length) {
@@ -89,6 +104,7 @@ const authModel = {
                 };
                 const token = jwt.sign(payload, process.env.SECRET_KEY);
                 const msg = "Login Success";
+                const user_type = "Customer";
                 resolve({
                   msg,
                   id,
@@ -97,6 +113,7 @@ const authModel = {
                   phone_number,
                   gender,
                   dob,
+                  user_type,
                   token,
                 });
               } else {
@@ -115,8 +132,7 @@ const authModel = {
   },
   sellerLogin: (body) => {
     return new Promise((resolve, reject) => {
-      const qs =
-        "SELECT * FROM seller WHERE email=?";
+      const qs = "SELECT * FROM seller WHERE email=?";
       db.query(qs, body.email, (err, data) => {
         if (!err) {
           if (data.length) {
@@ -130,7 +146,7 @@ const authModel = {
                   phone_number,
                   store_name,
                   avatar,
-                  store_desc,
+                  store_desc
                 } = data[0];
                 const { email } = body;
                 const payload = {
@@ -139,6 +155,7 @@ const authModel = {
                 };
                 const token = jwt.sign(payload, process.env.SECRET_KEY);
                 const msg = "Login Success";
+                const user_type = "Seller";
                 resolve({
                   msg,
                   id,
@@ -147,6 +164,7 @@ const authModel = {
                   store_name,
                   avatar,
                   store_desc,
+                  user_type,
                   token,
                 });
               } else {
