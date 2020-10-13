@@ -51,6 +51,19 @@ const userModel = {
       });
     });
   },
+  addAddress: (user_id, body) => {
+    return new Promise((resolve, reject) => {
+      const queryStr = `UPDATE address SET ? WHERE address.user_id = ${user_id}`;
+      db.query(queryStr, body, (err, data) => {
+        if (!err) {
+          console.log(data);
+          resolve(data);
+        } else {
+          reject(err);
+        }
+      });
+    });
+  },
 };
 
 module.exports = userModel;

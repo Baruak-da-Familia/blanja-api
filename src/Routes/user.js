@@ -14,6 +14,11 @@ usersRouter.patch(
   userController.updateCustomer
 );
 usersRouter.patch(
+  "/customer-address/:id",
+  userController.addAddress
+);
+
+usersRouter.patch(
   "/seller/:id",
   uploadImage.singleUpload,
   userController.updateSeller

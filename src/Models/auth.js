@@ -11,7 +11,7 @@ const authModel = {
           bcrypt.hash(password, salt, (error, hashedPassword) => {
             if (!error) {
               const newBody = { ...body, password: hashedPassword };
-              const qs = "INSERT INTO customer SET ?";
+              const qs = `START TRANSACTION; INSERT INTO customer SET ?; INSERT INTO address SET user_id = LAST_INSERT_ID(); SELECT id, name, avatar, phone_number, gender, dob FROM customer WHERE customer.email=?; COMMIT;`;
               db.query(qs, [newBody, body.email], (err, data) => {
                 if (err) {
                   reject({ msg: "User Already Exist" });
