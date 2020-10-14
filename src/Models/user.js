@@ -63,36 +63,31 @@ const userModel = {
       });
     });
   },
-  resetPassCustomer: (id, body) => {
+  resetPassCustomer: (body) => {
     return new Promise((resolve, reject) => {
       if (body.newPassword !== undefined) {
-        bcrypt.genSalt(10, (err, salt) => {
-          bcrypt.hash(body.newPassword, salt, (err, hashedPassword) => {
-            if (err) {
-              reject({
-                msg: "unknown error",
-              });
+        bcrypt.genSalt(10, (error, salt) => {
+          if (error) {
+            reject(error);
+          }
+          const { password } = body;
+          bcrypt.hash(password, salt, (error, hashedPassword) => {
+            if (error) {
+              reject(error);
             }
-            const newPasswordQuery = "UPDATE customer SET ? WHERE email = ?;";
-            db.query(
-              newPasswordQuery,
-              [
-                {
-                  password: hashedPassword,
-                },
-                body.email,
-              ],
-              (err) => {
-                if (err) {
-                  reject({
-                    msg: "Unknown Error",
-                  });
-                }
+            const newBody = { ...body, password: hashedPassword };
+            const qs = `UPDATE customer SET ? WHERE customer.email ='${newBody.email}'`;
+            db.query(qs, newBody, (error) => {
+              if (!error) {
                 resolve({
                   msg: "Reset Password Success",
                 });
+              } else {
+                reject({
+                  msg: "Unknown Error",
+                });
               }
-            );
+            });
           });
         });
       } else if (body.email !== undefined) {

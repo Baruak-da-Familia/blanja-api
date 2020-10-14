@@ -14,7 +14,7 @@ usersRouter.patch(
 	userController.updateCustomer
 );
 usersRouter.patch(
-  "/reset-pass-customer/:id",
+  "/reset-pass-customer/",
   userController.resetPassCustomer
 );
 usersRouter.patch("/customer-address/:id", userController.addAddress);
@@ -25,7 +25,7 @@ usersRouter.patch(
 	userController.updateSeller
 );
 usersRouter.patch(
-  "/reset-pass-seller/:id",
+  "/reset-pass-seller/",
   userController.resetPassSeller
 );
 
