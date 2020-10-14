@@ -17,11 +17,19 @@ usersRouter.patch(
   "/customer-address/:id",
   userController.addAddress
 );
+usersRouter.patch(
+  "/reset-pass-customer/:id",
+  userController.resetPassCustomer
+);
 
 usersRouter.patch(
   "/seller/:id",
   uploadImage.singleUpload,
   userController.updateSeller
+);
+usersRouter.patch(
+  "/reset-pass-seller/:id",
+  userController.resetPassSeller
 );
 
 module.exports = usersRouter;
