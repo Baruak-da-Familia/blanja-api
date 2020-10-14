@@ -3,6 +3,7 @@ const router = express.Router();
 
 const authRouter = require("./auth");
 const userRouter = require("./user");
+const productRouter = require("./product");
 const transactionRouter = require("./transaction");
 
 router.use("/auth", authRouter);
