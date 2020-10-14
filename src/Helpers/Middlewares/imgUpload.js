@@ -53,6 +53,28 @@ const uploadImage = {
       }
     });
   },
+  multiUpload: (req, res, next) => {
+    const multiUpload = upload.array("img", 10);
+    multiUpload(req, res, (err) => {
+      // console.log(req.file);
+      if (err) {
+        res.json({
+          msg: err,
+        });
+      } else {
+        try {
+          const img = req.files.map((item) => {
+            return `/images/${item.filename}`
+          })
+          req.body.img = img.join(',');
+        } catch (err) {
+          console.log(err);
+        } finally {
+          next();
+        }
+      }
+    });
+  },
 };
 
 module.exports = uploadImage;
