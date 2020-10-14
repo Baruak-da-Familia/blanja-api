@@ -16,7 +16,19 @@ const authModel = {
                 if (err) {
                   reject({ msg: "User Already Exist" });
                 } else {
-                  const { insertId, avatar = null, phone_number = null, gender = null, dob = null } = data;
+                  const {
+                    insertId,
+                    avatar = null,
+                    phone_number = null,
+                    gender = null,
+                    dob = null,
+                    save_address = null,
+                    recipient_name = null,
+                    address = null,
+                    city_of_subdistrict = null,
+                    recipient_telp_number = null,
+                    postal_code = null,
+                  } = data;
                   const { name, email } = body;
                   const payload = {
                     id: insertId,
@@ -33,6 +45,12 @@ const authModel = {
                     phone_number,
                     gender,
                     dob,
+                    save_address,
+                    recipient_name,
+                    address,
+                    city_of_subdistrict,
+                    recipient_telp_number,
+                    postal_code,
                     user_type,
                     token,
                   });
@@ -88,7 +106,8 @@ const authModel = {
   },
   customerLogin: (body) => {
     return new Promise((resolve, reject) => {
-      const qs = "SELECT * FROM customer WHERE email=?";
+      const qs =
+        "SELECT customer.id, customer.name, customer.email, customer.password, customer.avatar, customer.phone_number, customer.gender, customer.dob, address.save_address, address.recipient_name, address.address, address.city_of_subdistrict, address.recipient_telp_number, address.postal_code FROM customer JOIN address ON customer.id = address.user_id WHERE email=?";
       db.query(qs, body.email, (err, data) => {
         if (!err) {
           if (data.length) {
@@ -96,7 +115,20 @@ const authModel = {
               if (!result) {
                 reject({ msg: "Wrong Password" });
               } else if (result === true) {
-                const { id, name, avatar, phone_number, gender, dob } = data[0];
+                const {
+                  id,
+                  name,
+                  avatar,
+                  phone_number,
+                  gender,
+                  dob,
+                  save_address,
+                  recipient_name,
+                  address,
+                  city_of_subdistrict,
+                  recipient_telp_number,
+                  postal_code,
+                } = data[0];
                 const { email } = body;
                 const payload = {
                   id,
@@ -113,6 +145,12 @@ const authModel = {
                   phone_number,
                   gender,
                   dob,
+                  save_address,
+                  recipient_name,
+                  address,
+                  city_of_subdistrict,
+                  recipient_telp_number,
+                  postal_code,
                   user_type,
                   token,
                 });
@@ -146,7 +184,7 @@ const authModel = {
                   phone_number,
                   store_name,
                   avatar,
-                  store_desc
+                  store_desc,
                 } = data[0];
                 const { email } = body;
                 const payload = {
