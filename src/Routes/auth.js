@@ -1,4 +1,5 @@
-const authRouter = require("express").Router();
+const { express } = require("../../sharedVariable");
+const authRouter = express.Router();
 const authController = require("../Controllers/auth");
 
 authRouter.post("/register/customer", authController.customerRegister);
