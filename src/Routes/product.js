@@ -6,6 +6,10 @@ const productRouter = express.Router();
 
 productRouter.get("/", productController.getProduct);
 productRouter.get("/product/:id", productController.getProductById);
+productRouter.get(
+	"/product/seller/:id",
+	productController.getProductBySellerId
+);
 productRouter.post("/", imgUpload.multiUpload, productController.addNewProduct);
 productRouter.patch(
 	"/:id",

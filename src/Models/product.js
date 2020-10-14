@@ -85,6 +85,18 @@ const productModel = {
 			});
 		});
 	},
+	getProductBySellerId: function (id) {
+		const queryString =
+			"SELECT product.id, product.name, product_img.img as image, seller_id,seller.name as seller_name, brand, price,category.category,qty,status,description,added_at FROM product JOIN product_img ON product_img.product_id = product.id JOIN seller ON seller.id = product.seller_id JOIN category ON product.category_id = category.category_id WHERE product.seller_id=?";
+		return new Promise((resolve, reject) => {
+			db.query(queryString, [id], (err, data) => {
+				if (err) {
+					reject(err);
+				}
+				resolve(this.alignHelper(data));
+			});
+		});
+	},
 	addNewProduct: function (body) {
 		const { img, ...product_body } = body;
 		const product_img = img
