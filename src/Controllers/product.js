@@ -23,6 +23,16 @@ const productController = {
 				formResponse.error(res, err);
 			});
 	},
+	getProductBySellerId: function (req, res) {
+		productModel
+			.getProductBySellerId(req.params.id)
+			.then((data) => {
+				formResponse.success(res, data);
+			})
+			.catch((err) => {
+				formResponse.error(res, err);
+			});
+	},
 	addNewProduct: (req, res) => {
 		productModel
 			.addNewProduct(req.body)
