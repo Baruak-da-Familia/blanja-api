@@ -78,7 +78,7 @@ const transactionModel = {
 				return [body.id, product.id, product.qty];
 			});
 			db.query(allQuery, [rest, arrayOfOrder], (err, data) => {
-				// console.log(data);
+				// console.log(arrayOfOrder);
 				if (!err) {
 					resolve(data);
 				} else {

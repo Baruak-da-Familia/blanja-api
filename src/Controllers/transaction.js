@@ -6,7 +6,7 @@ const transactionController = {
 		transactionModel
 			.addTransaction(req.body)
 			.then((data) => {
-				console.log(data);
+				// console.log(data);
 				const responseObj = {
 					msg: "Transaction success",
 					...req.body,
