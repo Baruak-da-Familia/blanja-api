@@ -23,13 +23,13 @@ const formResponse = {
 				? ""
 				: `/?name=${name}&brand=${brand}&category=${category}&page=${
 						Number(page) - 1
-				  }&limit=${limit}`;
+				  }&limit=${Number(limit)}`;
 		const nextPage =
-			data.length < limit
+			data.length < Number(limit) / 5
 				? ""
 				: `/?name=${name}&brand=${brand}&category=${category}&page=${Number(
 						page
-				  )}&limit=${limit}`;
+				  )}&limit=${Number(limit)}`;
 		const responseObj = {
 			success: true,
 			status: 200,
