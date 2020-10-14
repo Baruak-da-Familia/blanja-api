@@ -52,6 +52,26 @@ const userController = {
         formResponse.error(res, err);
       });
   },
+  resetPassCustomer: (req, res) => {
+		userModel
+			.resetPassCustomer(req.params.id, req.body)
+			.then((data) => {
+				formResponse.success(res, data, 200);
+			})
+			.catch((err) => {
+				formResponse.error(res, err, 500);
+			});
+  },
+  resetPassSeller: (req, res) => {
+		userModel
+			.resetPassSeller(req.params.id, req.body)
+			.then((data) => {
+				formResponse.success(res, data, 200);
+			})
+			.catch((err) => {
+				formResponse.error(res, err, 500);
+			});
+	},
   addAddress: (req, res) => {
     userModel
       .addAddress(req.params.id, req.body)
