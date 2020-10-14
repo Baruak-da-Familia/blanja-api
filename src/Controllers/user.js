@@ -54,7 +54,7 @@ const userController = {
   },
   resetPassCustomer: (req, res) => {
 		userModel
-			.resetPassCustomer(req.params.id, req.body)
+			.resetPassCustomer(req.body)
 			.then((data) => {
 				formResponse.success(res, data, 200);
 			})
@@ -64,7 +64,7 @@ const userController = {
   },
   resetPassSeller: (req, res) => {
 		userModel
-			.resetPassSeller(req.params.id, req.body)
+			.resetPassSeller(req.body)
 			.then((data) => {
 				formResponse.success(res, data, 200);
 			})
