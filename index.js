@@ -5,6 +5,7 @@ const logger = require("morgan");
 const indexRouter = require("./src/Routes/index");
 const cors = require("cors");
 const { io, app, http, express } = require("./sharedVariable");
+const mongoClient = require("./src/Configs/mongoDB");
 
 app.listen(process.env.PORT, () => {
 	console.log(`Server is Running at ${process.env.PORT}`);
