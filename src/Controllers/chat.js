@@ -14,7 +14,7 @@ const chatController = {
 	},
 	syncFromServer: (req, res) => {
 		chatModel
-			.syncFromServer(req.body)
+			.syncFromServer(req.params.id)
 			.then((data) => {
 				formResponse.success(res, data);
 			})

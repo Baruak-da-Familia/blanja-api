@@ -3,13 +3,19 @@ const { isEmpty } = require("underscore");
 
 const chatModel = {
 	syncWithLocal: (body) => {
-		const query = { _id: body.id };
+		const { messages } = body;
+		const query = {
+			_id: Number(messages.user1.id) + Number(messages.user2.id),
+		};
 		const newObj = { $set: { chat: body.messages } };
-		const obj = { _id: body.id, chat: body.messages };
+		const obj = {
+			_id: Number(messages.user1.id) + Number(messages.user2.id),
+			chat: messages,
+		};
 		return new Promise((resolve, reject) => {
 			dbObj
 				.collection("chat")
-				.find({ _id: body.id })
+				.find(query)
 				.toArray(function (err, res) {
 					if (err) reject(err);
 					if (isEmpty(res)) {
@@ -28,17 +34,32 @@ const chatModel = {
 				});
 		});
 	},
-	syncFromServer: (body) => {
+	syncFromServer: (id) => {
 		return new Promise((resolve, reject) => {
 			dbObj
 				.collection("chat")
-				.find({ _id: body.id })
+				.find({
+					$or: [
+						{
+							"chat.user1.id": Number(id),
+						},
+						{
+							"chat.user2.id": Number(id),
+						},
+					],
+				})
+				.project({ _id: 0 })
 				.toArray((err, res) => {
-					if (err) reject("connection error");
+					if (err) reject(err);
 					if (isEmpty(res)) {
-						reject("no chat history");
+						resolve({ chat: [] });
 					}
-					resolve(...res);
+					resolve(
+						res.map((item) => {
+							return item.chat;
+						})
+					);
+					// resolve(res);
 				});
 		});
 	},
