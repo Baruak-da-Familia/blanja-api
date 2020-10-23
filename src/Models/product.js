@@ -62,16 +62,17 @@ const productModel = {
 		let queryString = "";
 		const offset = (Number(page) - 1) * Number(limit);
 		if (category) {
-			queryString = `SELECT product.id, product.name, product_img.img as image, seller_id,seller.name as seller_name, brand, price,category.category,qty,status,description,added_at FROM product JOIN product_img ON product_img.product_id = product.id JOIN seller ON seller.id = product.seller_id JOIN category ON product.category_id = category.category_id WHERE product.category_id=${category} AND product.name LIKE '%${name}%' LIMIT ${limit} OFFSET ${offset}`;
+			queryString = `SELECT product.id, product.name, GROUP_CONCAT(product_img.img) as image, seller_id,seller.name as seller_name, brand, price,category.category,qty,status,description,added_at FROM product JOIN product_img ON product_img.product_id = product.id JOIN seller ON seller.id = product.seller_id JOIN category ON product.category_id = category.category_id WHERE product.category_id=${category} AND product.name LIKE '%${name}%' GROUP BY product.id LIMIT ${limit} OFFSET ${offset}`;
 		} else {
-			queryString = `SELECT product.id, product.name, product_img.img as image, seller_id,seller.name as seller_name, brand, price,category.category,qty,status,description,added_at FROM product JOIN product_img ON product_img.product_id = product.id JOIN seller ON seller.id = product.seller_id JOIN category ON product.category_id = category.category_id WHERE product.name LIKE '%${name}%' OR product.brand LIKE '%${brand}%' LIMIT ${limit} OFFSET ${offset}`;
+			queryString = `SELECT product.id, product.name, GROUP_CONCAT(product_img.img) as image, seller_id,seller.name as seller_name, brand, price,category.category,qty,status,description,added_at FROM product JOIN product_img ON product_img.product_id = product.id JOIN seller ON seller.id = product.seller_id JOIN category ON product.category_id = category.category_id WHERE product.name LIKE '%${name}%' OR product.brand LIKE '%${brand}%' GROUP BY product.id LIMIT ${limit} OFFSET ${offset}`;
 		}
 		return new Promise((resolve, reject) => {
 			db.query(queryString, (err, data) => {
 				if (err) {
 					reject(err);
 				}
-				resolve(this.alignHelper(data));
+				// resolve(this.alignHelper(data));
+				resolve(data);
 			});
 		});
 	},
