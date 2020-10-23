@@ -52,7 +52,7 @@ const chatModel = {
 				.toArray((err, res) => {
 					if (err) reject(err);
 					if (isEmpty(res)) {
-						resolve({ chat: [] });
+						resolve([]);
 					}
 					resolve(
 						res.map((item) => {
