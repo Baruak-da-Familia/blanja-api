@@ -5,9 +5,9 @@ const imgUpload = require("../Helpers/Middlewares/imgUpload");
 const productRouter = express.Router();
 
 productRouter.get("/", productController.getProduct);
-productRouter.get("/product/:id", productController.getProductById);
+productRouter.get("/:id", productController.getProductById);
 productRouter.get(
-	"/product/seller/:id",
+	"/seller/:id",
 	productController.getProductBySellerId
 );
 productRouter.post("/", imgUpload.multiUpload, productController.addNewProduct);

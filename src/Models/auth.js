@@ -17,40 +17,34 @@ const authModel = {
                   reject({ msg: "User Already Exist" });
                 } else {
                   const {
-                    insertId,
-                    avatar = null,
-                    phone_number = null,
-                    gender = null,
-                    dob = null,
-                    save_address = null,
-                    recipient_name = null,
-                    address = null,
-                    city_of_subdistrict = null,
-                    recipient_telp_number = null,
-                    postal_code = null,
-                  } = data;
+                    id,
+                    avatar,
+                    phone_number,
+                    gender,
+                    dob,
+                  } = data[3][0];
                   const { name, email } = body;
                   const payload = {
-                    id: insertId,
+                    id,
                     email,
                   };
                   const user_type = "Customer";
                   const token = jwt.sign(payload, process.env.SECRET_KEY);
                   resolve({
                     msg: "Register Success",
-                    id: insertId,
+                    id,
                     name,
                     email,
                     avatar,
                     phone_number,
                     gender,
                     dob,
-                    save_address,
-                    recipient_name,
-                    address,
-                    city_of_subdistrict,
-                    recipient_telp_number,
-                    postal_code,
+                    save_address:null,
+                    recipient_name:null,
+                    address:null,
+                    city_of_subdistrict:null,
+                    recipient_telp_number:null,
+                    postal_code:null,
                     user_type,
                     token,
                   });
@@ -75,7 +69,6 @@ const authModel = {
                 if (err) {
                   reject({ msg: "User Already Exist" });
                 } else {
-                  console.log(data);
                   const { insertId, avatar = null, store_desc = null } = data;
                   const { email, name, phone_number, store_name } = body;
                   const payload = {
@@ -91,8 +84,8 @@ const authModel = {
                     email,
                     phone_number,
                     store_name,
-                    avatar,
-                    store_desc,
+                    avatar:null,
+                    store_desc:null,
                     user_type,
                     token,
                   });
