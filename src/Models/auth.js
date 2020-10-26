@@ -153,7 +153,7 @@ const authModel = {
               }
             });
           } else {
-            const msg = "User Not Found";
+            const msg = "Invalid email or password";
             reject({ msg, err });
           }
         } else {
@@ -205,11 +205,105 @@ const authModel = {
               }
             });
           } else {
-            const msg = "User Not Found";
+            const msg = "Invalid email or password";
             reject({ msg, err });
           }
         } else {
           reject(err);
+        }
+      });
+    });
+  },
+  sendEmailCustomer: (body) => {
+    return new Promise((resolve, reject) => {
+      const queryString = "SELECT id, email FROM customer WHERE email = ?";
+      db.query(queryString, [body.email], (err, data) => {
+        if (err) {
+          reject(err);
+        }
+        if (data.length) {
+          const link = `http://localhost:3000/ResetPasswordCustomer?id_user=${data[0].id}`
+          resolve({ email: data[0].email, link: link })
+        } else {
+          reject({ msg: 'data not found' });
+        }
+      });
+    });
+  },
+  sendEmailSeller: (body) => {
+    return new Promise((resolve, reject) => {
+      const queryString = "SELECT id, email FROM seller WHERE email = ?";
+      db.query(queryString, [body.email], (err, data) => {
+        if (err) {
+          reject(err);
+        }
+        if (data.length) {
+          const link = `http://localhost:3000/ResetPasswordSeller?id_user=${data[0].id}`
+          resolve({ email: data[0].email, link: link })
+        } else {
+          reject({ msg: 'data not found' });
+        }
+      });
+    });
+  },
+  resetPasswordCustomer: (body) => {
+    return new Promise((resolve, reject) => {
+      const qs = "SELECT email FROM customer WHERE id = ?";
+      db.query(qs, [body.id], (err, data) => {
+        if (data.length) {
+          bcrypt.genSalt(10, (err, salt) => {
+            if (err) {
+              reject(err);
+            }
+            const { password, id } = body;
+            bcrypt.hash(password, salt, (err, hashedPassword) => {
+              if (err) {
+                reject(err);
+              }
+              const queryString =
+                "UPDATE customer SET password= ? WHERE id = ?";
+              db.query(queryString, [hashedPassword, id], (err, data) => {
+                if (!err) {
+                  resolve({ msg: "change password success" });
+                } else {
+                  reject(err);
+                }
+              });
+            });
+          });
+        } else {
+          reject({ msg: 'user not found' });
+        }
+      });
+    });
+  },
+  resetPasswordSeller: (body) => {
+    return new Promise((resolve, reject) => {
+      const qs = "SELECT email FROM seller WHERE id = ?";
+      db.query(qs, [body.id], (err, data) => {
+        if (data.length) {
+          bcrypt.genSalt(10, (err, salt) => {
+            if (err) {
+              reject(err);
+            }
+            const { password, id } = body;
+            bcrypt.hash(password, salt, (err, hashedPassword) => {
+              if (err) {
+                reject(err);
+              }
+              const queryString =
+                "UPDATE seller SET password= ? WHERE id = ?";
+              db.query(queryString, [hashedPassword, id], (err, data) => {
+                if (!err) {
+                  resolve({ msg: "change password success" });
+                } else {
+                  reject(err);
+                }
+              });
+            });
+          });
+        } else {
+          reject({ msg: 'user not found' });
         }
       });
     });
