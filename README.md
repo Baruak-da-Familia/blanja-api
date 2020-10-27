@@ -5,9 +5,9 @@ This is a repository that providing a REST API to Blanja Web. For Blanja Web rep
 Before using this API we need some application installed in our PC or Laptop:
 <table>
   <tr>
-    <td valign="center"><img src="https://code.visualstudio.com/assets/favicon.ico" height="150px" width="200px"></td>
-    <td valign="center"><img src="https://thekenyandev.com/static/ea6d8fe57ed02c773ad10ca3003b2451/nodejs.png" height="150px" width="200px"></td>
-    <td valign="center"><img src="https://upload.wikimedia.org/wikipedia/en/thumb/7/78/XAMPP_logo.svg/1200px-XAMPP_logo.svg.png" height="150px" width="200px"></td>
+    <td valign="center"><img src="https://code.visualstudio.com/assets/favicon.ico" height="200px" width="250px"></td>
+    <td valign="center"><img src="https://thekenyandev.com/static/ea6d8fe57ed02c773ad10ca3003b2451/nodejs.png" height="200px" width="250px"></td>
+    <td valign="center"><img src="https://upload.wikimedia.org/wikipedia/en/thumb/7/78/XAMPP_logo.svg/1200px-XAMPP_logo.svg.png" height="200px" width="250px"></td>
   </tr>
  </table>
 
@@ -40,5 +40,5 @@ After that you can install package that you need in your project with command:
 
 ## REST API
 
-The REST API to the caffepedia app is described in this Postman Documentation: <https://documenter.getpostman.com/view/12176793/TVYC9KsC>.
-<i>Note: change the IP and Port with http://localhost:your_port if you yet deploy the app, or change it with your ip deploy</i>
+The REST API to the Blanja Web is described in this Postman Documentation: <https://documenter.getpostman.com/view/12176793/TVYC9KsC>.
+<i>Note: change the IP and Port with http://localhost:your_port if you yet deploy the app, or change it with your IP deploy</i>
