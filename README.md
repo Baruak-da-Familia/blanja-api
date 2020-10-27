@@ -15,7 +15,6 @@ Before using this API we need some application installed in our PC or Laptop:
 
 - [Nodejs](https://nodejs.org/en/)
 
-
 - [XAMPP](https://www.apachefriends.org/index.html)
 
 ### Install
@@ -40,5 +39,5 @@ After that you can install package that you need in your project with command:
 
 ## REST API
 
-The REST API to the Blanja Web is described in this Postman Documentation: <https://documenter.getpostman.com/view/12176793/TVYC9KsC>.
+The REST API to the Blanja Web is described in this Postman Documentation: <https://documenter.getpostman.com/view/12176793/TVRoWRG8>.
 <i>Note: change the IP and Port with http://localhost:your_port if you yet deploy the app, or change it with your IP deploy</i>
