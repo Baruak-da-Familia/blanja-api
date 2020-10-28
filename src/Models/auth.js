@@ -222,7 +222,7 @@ const authModel = {
           reject(err);
         }
         if (data.length) {
-          const link = `http://localhost:3000/ResetPasswordCustomer?id_user=${data[0].id}`
+          const link = `${process.env.REACT_APP_URL}ResetPasswordCustomer?id_user=${data[0].id}`
           resolve({ email: data[0].email, link: link })
         } else {
           reject({ msg: 'data not found' });
@@ -238,7 +238,7 @@ const authModel = {
           reject(err);
         }
         if (data.length) {
-          const link = `http://localhost:3000/ResetPasswordSeller?id_user=${data[0].id}`
+          const link = `${process.env.REACT_APP_URL}ResetPasswordSeller?id_user=${data[0].id}`
           resolve({ email: data[0].email, link: link })
         } else {
           reject({ msg: 'data not found' });
